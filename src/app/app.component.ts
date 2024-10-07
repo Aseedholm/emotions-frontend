@@ -1,13 +1,19 @@
+// app.component.ts
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'emotions-frontend';
+  showFeedback = false; // New property to control feedback visibility
+
+  handleMood(mood: string) {
+    // Show feedback section when a mood is selected
+    this.showFeedback = true;
+  }
 }
