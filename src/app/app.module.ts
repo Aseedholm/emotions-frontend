@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { AppComponent } from './app.component';
-import { EmotionComponent } from './emotion/emotion.component';
+import { EmotionComponent } from './emotions/emotion/emotion.component';
 
 @NgModule({
   declarations: [

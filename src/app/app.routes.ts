@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { EmotionComponent } from './emotion/emotion.component'; // Adjust the path as necessary
+import { EmotionComponent } from './emotions/emotion/emotion.component'; // Adjust the path as necessary
 import { AppComponent } from './app.component';
 
 export const routes: Routes = [
