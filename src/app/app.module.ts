@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { AppComponent } from './app.component';
 import { EmotionComponent } from './emotions/emotion/emotion.component';
+import { EmotionsModule } from './emotions/emotions.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { EmotionComponent } from './emotions/emotion/emotion.component';
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes) // Set up routing
+    RouterModule.forRoot(routes),
+    EmotionsModule // Set up routing
   ],
   providers: [],
   bootstrap: [AppComponent]
