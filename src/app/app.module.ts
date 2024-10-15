@@ -4,18 +4,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { AppComponent } from './app.component';
-import { EmotionComponent } from './emotions/emotion/emotion.component';
 import { EmotionsModule } from './emotions/emotions.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EmotionComponent // Declare your Emotion component here
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
-    EmotionsModule // Set up routing
+    EmotionsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

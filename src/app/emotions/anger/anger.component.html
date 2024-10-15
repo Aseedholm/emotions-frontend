@@ -1,1 +1,20 @@
-<p>anger works!</p>
+
+
+<div class="mood-block"
+  (click)="onBoxClick()" 
+  (keydown)="handleEnterKey($event)" 
+  tabindex="0"
+  [ngClass]="{'emphasized': isEmphasized}">
+  <span>Anger</span> <!-- Label for the emotion box -->
+</div>
+
+<!-- Conditionally render the input box -->
+<div *ngIf="isEmphasized">
+  <textarea 
+    [(ngModel)]="userInput" 
+    (keydown.enter)="createEmotion('anger', userInput)" 
+    placeholder="Describe your anger..."
+    rows="5"
+    cols="30"
+  ></textarea>
+</div>
