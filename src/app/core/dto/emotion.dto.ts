@@ -1,3 +1,4 @@
-export interface EmotionDto {
+export interface EmotionDto<T> {
     context: string;
+    data: T;
 }

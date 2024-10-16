@@ -9,7 +9,7 @@ import { AnxietyDto } from '../../core/dto/anxiety.dto';
   template: '',  // No template here since it's an abstract class
   styleUrls: []  // No specific styles in this class
 })
-export abstract class EmotionBaseComponent {
+export abstract class EmotionBaseComponent<T extends EmotionDto<U>, U>{
   isEmphasized: boolean = false;
   showTextBox: boolean = false;
   userInput: string = '';
@@ -29,12 +29,15 @@ export abstract class EmotionBaseComponent {
   }
 
   createEmotion(emotionType: string, context: string) {
-    const dto : AngerDto | AnxietyDto = {
-      intensity: 0,
-      context
-    };
+    const dto : T = {
+      context,
+      data: this.getEmotionData()
+    } as T;
 
-    this.emotionService.createEmotion(emotionType, dto).subscribe({
+    // Use the appropriate API URL for the emotion type
+    const apiUrl = `${emotionType}`; // Adjust the URL structure as necessary
+
+    this.emotionService.addEmotion<T, U>(dto, apiUrl).subscribe({
         //todo fix type safety
         next: (response: any) => {
             console.log(`${emotionType} entry created successfully:`, response);
@@ -44,4 +47,6 @@ export abstract class EmotionBaseComponent {
         }
     });
   }
+
+  abstract getEmotionData(): U;
 }

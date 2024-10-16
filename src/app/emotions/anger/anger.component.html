@@ -5,10 +5,9 @@
   (keydown)="handleEnterKey($event)" 
   tabindex="0"
   [ngClass]="{'emphasized': isEmphasized}">
-  <span>Anger</span> <!-- Label for the emotion box -->
+  <span>Anger</span> 
 </div>
 
-<!-- Conditionally render the input box -->
 <div *ngIf="isEmphasized">
   <textarea 
     [(ngModel)]="userInput" 

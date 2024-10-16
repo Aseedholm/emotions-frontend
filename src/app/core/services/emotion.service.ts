@@ -1,19 +1,22 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { EmotionDto } from "../dto/emotion.dto";
-import { Observable } from "rxjs";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { BaseEmotion } from '../../shared/models/emotion.model';
+import { EmotionDto } from '../dto/emotion.dto';
+import { environments } from '../../../environments/environments';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class EmotionService {
-    private baseUrl = 'http://localhost:3000';  // Replace with your actual backend API URL
+    private baseApiUrl : string = environments.apiUrl;
+  constructor(private http: HttpClient) {}
 
-    constructor(private http: HttpClient) {}
+  addEmotion<T extends EmotionDto<U>, U>(dto: T, endpoint: string): Observable<any> {
+    return this.http.post(`${this.baseApiUrl}/${endpoint}`, dto);
+  }
 
-    //todo fix typesafety of Observable<any>
-    createEmotion(emotionType: string, dto: EmotionDto) : Observable<any> {
-        // Send a POST request to create a new emotion entry with type safety
-        return this.http.post(`${this.baseUrl}/${emotionType}`, dto);
-    }
+  deleteEmotion(id: number, endpoint: string): Observable<any> {
+    return this.http.delete(`${this.baseApiUrl}/${endpoint}/${id}`);
+  }
+
+  
 }
