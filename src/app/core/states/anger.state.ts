@@ -1,8 +1,13 @@
 import {State, Action, StateContext, Selector} from '@ngxs/store';
 import { Injectable } from "@angular/core";
 import { AngerEmotion } from '../../shared/models/anger.model';
+import { AngerService } from '../services/anger.service';
+import { tap } from 'rxjs/operators';
 
-//Actions to Manager the State
+
+export class GetAnger {
+    static readonly type = '[Anger] Get'
+}
 export class AddAnger {
     static readonly type = '[Anger] Add';
     constructor(public payload: AngerEmotion) {}
@@ -24,21 +29,37 @@ export class UpdateAnger {
 })
 @Injectable()
 export class AngerState {
+    constructor(private angerService: AngerService) {}
+
     @Selector()
     static getAllAngers(state: AngerEmotion[]) {
         return state;
     }
 
+    @Action(GetAnger)
+    getAnger({setState}: StateContext<AngerEmotion[]>) {
+        return this.angerService.getAnger().pipe(
+            tap((angers : AngerEmotion[]) => {
+                setState(angers);
+            })
+        )
+    }
+
     @Action(AddAnger)
     addAnger({ getState, setState }: StateContext<AngerEmotion[]>, { payload }: AddAnger) {
-        const state = getState();
-        setState([...state, payload]); // Use setState here
+        return this.angerService.addAnger(payload).pipe(
+            tap(() => {
+                const state = getState();
+                setState([...state, payload]); // Use setState here
+            })
+        );
     }
 
     @Action(RemoveAnger)
     removeAnger({ getState, setState }: StateContext<AngerEmotion[]>, { id }: RemoveAnger) {
         const state = getState();
-        setState(state.filter(angerEmotion => angerEmotion.id !== id)); // Use setState here
+        setState(state.filter(angerEmotion => angerEmotion.id !== id));
+        return null; //todo implement removeAnger method.
     }
 
     @Action(UpdateAnger)
@@ -47,6 +68,6 @@ export class AngerState {
         setState(
             state.map(angerEmotion => 
                 angerEmotion.id === payload.id ? { ...angerEmotion, ...payload } : angerEmotion)
-        ); // Use setState here
+        ); // todo implement updateAnger method
     }
 }

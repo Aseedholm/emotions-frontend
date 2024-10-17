@@ -10,12 +10,16 @@ export class EmotionService {
     private baseApiUrl : string = environments.apiUrl;
   constructor(private http: HttpClient) {}
 
-  addEmotion<T extends EmotionDto<U>, U>(dto: T, endpoint: string): Observable<any> {
-    return this.http.post(`${this.baseApiUrl}/${endpoint}`, dto);
+  addEmotion<T extends EmotionDto<U>, U>(dto: T, endpoint: string): Observable<T> {
+    return this.http.post<T>(`${this.baseApiUrl}/${endpoint}`, dto);
   }
 
-  deleteEmotion(id: number, endpoint: string): Observable<any> {
-    return this.http.delete(`${this.baseApiUrl}/${endpoint}/${id}`);
+  deleteEmotion(id: number, endpoint: string): Observable<number> {
+    return this.http.delete<number>(`${this.baseApiUrl}/${endpoint}/${id}`);
+  }
+
+  getEmotions<T>(endpoint: string) : Observable<T[]> {
+    return this.http.get<T[]>(`${this.baseApiUrl}/${endpoint}`);
   }
 
   

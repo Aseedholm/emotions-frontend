@@ -5,5 +5,6 @@ export interface AngerDto extends EmotionDto<AngerData>{
     intensity: number;
 }
 
-export interface CreateAngerDto extends AngerDto {
-}
+export interface CreateAngerDto extends AngerDto {}
+
+export interface UpdateAngerDto extends Partial<CreateAngerDto>{}

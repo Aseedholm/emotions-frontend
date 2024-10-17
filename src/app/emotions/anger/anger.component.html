@@ -1,19 +1,43 @@
+<div id="moods">
+  <div class="mood-block"
+    (click)="onBoxClick()" 
+    (keydown)="handleEnterKey($event)" 
+    tabindex="0"
+    [ngClass]="{'emphasized': isEmphasized}">
+    <span>Anger</span> 
+  </div>
 
+  <div *ngIf="isEmphasized" class="anger-input-container">
+    <textarea 
+      class="response-text-area"
+      [(ngModel)]="userInput" 
+      (keydown.enter)="createEmotion(userInput)" 
+      placeholder="Describe your anger..."
+      rows="10"
+      cols="100"
+    ></textarea>
 
-<div class="mood-block"
-  (click)="onBoxClick()" 
-  (keydown)="handleEnterKey($event)" 
-  tabindex="0"
-  [ngClass]="{'emphasized': isEmphasized}">
-  <span>Anger</span> 
-</div>
+    <!-- Display the list of anger emotions -->
+    <h3>Current Anger Emotions:</h3>
+    <div *ngIf="angers$ | async as angers" class="anger-list-container">
+      <div class="navigation-arrows">
+        <button (click)="prevAnger()" [disabled]="currentAngerIndex === 0">&#9664;</button> <!-- Left arrow -->
+      </div>
 
-<div *ngIf="isEmphasized">
-  <textarea 
-    [(ngModel)]="userInput" 
-    (keydown.enter)="createEmotion('anger', userInput)" 
-    placeholder="Describe your anger..."
-    rows="5"
-    cols="30"
-  ></textarea>
+      <ul *ngIf="angers.length > 0">
+        <li *ngFor="let anger of angers | slice:currentAngerIndex:currentAngerIndex + maxAngersToDisplay" class="mood-block">
+          <strong>Context:</strong> {{ anger?.context }}<br />
+          <strong>Intensity:</strong> {{ anger?.data?.intensity }}<br />
+        </li>
+      </ul>
+
+      <div class="navigation-arrows">
+        <button (click)="nextAnger()" [disabled]="currentAngerIndex + maxAngersToDisplay >= (angers.length)">&#9654;</button> <!-- Right arrow -->
+      </div>
+
+      <div *ngIf="angers.length === 0">
+        <p>No anger emotions recorded.</p>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>I Am Feeling ...</h1>
+  <h1 class="feeling-question-header">I Am Feeling ...</h1>
   
   <div id="moods">
     <div class="mood-block" (click)="handleMood('Happy')">Happy</div>
@@ -7,11 +7,6 @@
     <app-anger></app-anger>
     <div class="mood-block" (click)="handleMood('Excited')">Excited</div>
     <div class="mood-block" (click)="handleMood('Anxious')">Anxious</div>
-  </div>
-
-  <div class="feedback-section" *ngIf="showFeedback">
-    <h2>Why?</h2>
-    <textarea id="reasonInput" rows="4" cols="30" placeholder="Please share your thoughts..."></textarea>
   </div>
 
   <!-- Router Outlet for routing -->

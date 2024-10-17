@@ -14,7 +14,7 @@ export abstract class EmotionBaseComponent<T extends EmotionDto<U>, U>{
   showTextBox: boolean = false;
   userInput: string = '';
 
-  constructor(private emotionService: EmotionService) {};
+  constructor() {};
 
   toggleEmphasis() {
     this.isEmphasized = !this.isEmphasized;  // Toggle emphasis state
@@ -23,30 +23,12 @@ export abstract class EmotionBaseComponent<T extends EmotionDto<U>, U>{
 
   handleEmotionEntry(emotionType: string) {
     if (this.userInput.trim()) {
-        this.createEmotion(emotionType, this.userInput);
+        this.createEmotion(this.userInput);
         this.userInput = '';
     }
   }
 
-  createEmotion(emotionType: string, context: string) {
-    const dto : T = {
-      context,
-      data: this.getEmotionData()
-    } as T;
-
-    // Use the appropriate API URL for the emotion type
-    const apiUrl = `${emotionType}`; // Adjust the URL structure as necessary
-
-    this.emotionService.addEmotion<T, U>(dto, apiUrl).subscribe({
-        //todo fix type safety
-        next: (response: any) => {
-            console.log(`${emotionType} entry created successfully:`, response);
-        },
-        error: (err: any) => {
-            console.error(`Error creating ${emotionType} entry:`, err);
-        }
-    });
-  }
+  abstract createEmotion(context: string): void;
 
   abstract getEmotionData(): U;
 }

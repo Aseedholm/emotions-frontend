@@ -7,8 +7,12 @@ import { Observable } from "rxjs";
 export class AngerService{
     constructor(private emotionService: EmotionService){}
 
-    addAnger(emotion: AngerEmotion) : Observable<any> {
-        return this.emotionService.addEmotion<AngerEmotion, AngerData>(emotion, '/anger');
+    addAnger(emotion: AngerEmotion) : Observable<AngerEmotion> {
+        return this.emotionService.addEmotion<AngerEmotion, AngerData>(emotion, 'anger');
+    }
+
+    getAnger() : Observable<AngerEmotion[]> {
+        return this.emotionService.getEmotions<AngerEmotion>('anger');
     }
 
 }

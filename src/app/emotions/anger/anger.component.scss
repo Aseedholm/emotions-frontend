@@ -1,40 +1,79 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-}
-
 .container {
-    text-align: center; /* Center-align text */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center content vertically */
+  height: 100vh; /* Full viewport height */
 }
 
-h1 {
-    color: #333;
-    margin-bottom: 20px;
+#moods {
+  display: flex;
+  flex-direction: column; /* Arrange mood blocks vertically */
+  justify-content: center;
+  align-items: center; /* Center the mood blocks horizontally */
+  gap: 10px; /* Space between the mood blocks */
+}
+
+.anger-input-container {
+  display: flex;
+  flex-direction: column; /* Stack textarea and list vertically */
+  align-items: center; /* Center elements horizontally */
+  width: 100%; /* Allow full width or a specific width */
+  text-align: center;
+}
+
+.response-text-area {
+  text-align: left;
+  width: 80%; /* Set a percentage width or a fixed width */
+  max-width: 600px; /* Optional: set a max width */
+  margin-bottom: 10px; /* Space below textarea */
+}
+
+.anger-list-container {
+  display: flex; /* Use flexbox layout for the list container */
+  align-items: center; /* Center vertically */
+}
+
+ul {
+  display: flex; /* Use flexbox layout */
+  flex-wrap: wrap; /* Allow items to wrap if necessary */
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+  gap: 10px; /* Space between mood displays */
+  justify-content: center; /* Center items horizontally */
 }
 
 .mood-block {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    margin: 10px;
-    width: 100px;
-    text-align: center;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.mood-block:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  text-align: center;
+  width: 150px; /* Set a fixed width */
 }
 
 .feedback-section {
-    margin-top: 20px;
+  margin-top: 20px;
+}
+
+/* Styles for navigation arrows */
+.navigation-arrows {
+  display: flex; /* Align arrows in a row */
+  justify-content: center; /* Center arrows vertically */
+  margin: 0 10px; /* Space between arrows and the list */
+}
+
+.navigation-arrows button {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.navigation-arrows button:disabled {
+  cursor: not-allowed; /* Change cursor for disabled buttons */
+  opacity: 0.5; /* Optional: make disabled buttons look inactive */
 }
