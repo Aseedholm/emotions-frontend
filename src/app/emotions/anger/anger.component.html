@@ -1,38 +1,68 @@
+<!-- (keydown)="handleEnterKey($event)" -->
 <div id="moods">
   <div class="mood-block"
     (click)="onBoxClick()" 
-    (keydown)="handleEnterKey($event)" 
     tabindex="0"
     [ngClass]="{'emphasized': isEmphasized}">
     <span>Anger</span> 
   </div>
 
   <div *ngIf="isEmphasized" class="anger-input-container">
-    <textarea 
+    <input
+      [readonly]="!inEditMode"
+      type="text"
       class="response-text-area"
-      [(ngModel)]="userInput" 
-      (keydown.enter)="createEmotion(userInput)" 
+      [(ngModel)]="userInputTitle"
+      placeholder="Title of entry..."
+    >
+
+          <!-- (keydown.enter)="createEmotion(userInputContext, userInputTitle)"  -->
+    <textarea
+      [readonly]="!inEditMode"
+      class="response-text-area"
+      [(ngModel)]="userInputContext" 
       placeholder="Describe your anger..."
       rows="10"
       cols="100"
     ></textarea>
 
+    <!-- selectedEmotion !== null &&  -->
+    <button *ngIf="inEditMode && userInputContext && userInputContext.trim() && userInputTitle && userInputTitle.trim()" class="response-enter-button" (click)="createEmotion(userInputContext, userInputTitle); inEditMode = false">
+      Save
+    </button>
+    <button *ngIf="selectedEmotion !== null" (click)="editable()" class="response-enter-button">
+      Edit
+    </button>
+    <button *ngIf="selectedEmotion !== null" (click)="deselectEmotion()" class="response-enter-button">
+      Clear
+    </button>
+
+    <!-- <button *ngIf="userInputContext && userInputContext.trim() && userInputTitle && userInputTitle.trim()" class="response-enter-button" (click)="createEmotion(userInputContext, userInputTitle)">
+      Enter
+    </button> -->
+
     <!-- Display the list of anger emotions -->
-    <h3>Current Anger Emotions:</h3>
+    <h3>Anger Entries:</h3>
     <div *ngIf="angers$ | async as angers" class="anger-list-container">
       <div class="navigation-arrows">
-        <button (click)="prevAnger()" [disabled]="currentAngerIndex === 0">&#9664;</button> <!-- Left arrow -->
+        <button (click)="prevAnger()" [disabled]="currentEmotionIndex === 0">&#9664;</button> <!-- Left arrow -->
       </div>
 
       <ul *ngIf="angers.length > 0">
-        <li *ngFor="let anger of angers | slice:currentAngerIndex:currentAngerIndex + maxAngersToDisplay" class="mood-block">
-          <strong>Context:</strong> {{ anger?.context }}<br />
-          <strong>Intensity:</strong> {{ anger?.data?.intensity }}<br />
-        </li>
+        <ng-container *ngFor="let anger of angers | slice:currentEmotionIndex:currentEmotionIndex + maxEmotionsToDisplay; let i = index" >
+          <li *ngIf="selectedEmotion !== anger"
+          class="mood-block" 
+          (click)="onCarouselBoxClick(anger, currentEmotionIndex)"
+          >
+          
+        <strong>Title:</strong> {{ anger?.title }}<br />
+        <strong>Created Date:</strong> {{ anger?.createdDate }}<br />
+      </li>
+        </ng-container>
       </ul>
 
       <div class="navigation-arrows">
-        <button (click)="nextAnger()" [disabled]="currentAngerIndex + maxAngersToDisplay >= (angers.length)">&#9654;</button> <!-- Right arrow -->
+        <button (click)="nextAnger()" [disabled]="currentEmotionIndex + maxEmotionsToDisplay >= (angers.length)">&#9654;</button> <!-- Right arrow -->
       </div>
 
       <div *ngIf="angers.length === 0">

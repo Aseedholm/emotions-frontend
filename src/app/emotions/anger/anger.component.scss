@@ -29,6 +29,13 @@
   margin-bottom: 10px; /* Space below textarea */
 }
 
+.response-enter-button {
+  width: 80%; /* Set a percentage width or a fixed width */
+  max-width: 600px; /* Optional: set a max width */
+  margin-bottom: 10px; /* Space below textarea */
+  text-align: center;
+}
+
 .anger-list-container {
   display: flex; /* Use flexbox layout for the list container */
   align-items: center; /* Center vertically */
@@ -77,3 +84,4 @@ ul {
   cursor: not-allowed; /* Change cursor for disabled buttons */
   opacity: 0.5; /* Optional: make disabled buttons look inactive */
 }
+

@@ -1,17 +1,18 @@
 import { Injectable } from "@angular/core";
 import { EmotionService } from "./emotion.service";
 import { AngerData, AngerEmotion } from "../../shared/models/anger.model";
-import { Observable } from "rxjs";
+import { Observable, lastValueFrom } from "rxjs";
 
 @Injectable()
 export class AngerService{
     constructor(private emotionService: EmotionService){}
 
-    addAnger(emotion: AngerEmotion) : Observable<AngerEmotion> {
+    //TODO Add ASYNC/AWAIT
+    addAnger(emotion: AngerEmotion) : Promise<AngerEmotion> {
         return this.emotionService.addEmotion<AngerEmotion, AngerData>(emotion, 'anger');
     }
 
-    getAnger() : Observable<AngerEmotion[]> {
+   getAnger() : Promise<AngerEmotion[]> {
         return this.emotionService.getEmotions<AngerEmotion>('anger');
     }
 

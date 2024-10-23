@@ -8,21 +8,26 @@ import { AngerState } from '../core/states/anger.state';
 import { EmotionService } from '../core/services/emotion.service';
 import { AngerService } from '../core/services/anger.service';
 import { EmotionBaseComponent } from './emotion-base/emotion-base.component';
+import { HappyState } from '../core/states/happy.state';
+import { HappyService } from '../core/services/happy.service';
+import { HappyComponent } from './happy/happy.component';
 
 
 
 @NgModule({
   declarations: [
-    AngerComponent
+    AngerComponent,
+    HappyComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    NgxsModule.forRoot([AngerState])
+    NgxsModule.forRoot([AngerState, HappyState])
   ],
   exports: [
     AngerComponent,
+    HappyComponent,
   ],
-  providers: [EmotionService, AngerService]
+  providers: [EmotionService, AngerService, HappyService]
 })
 export class EmotionsModule { }

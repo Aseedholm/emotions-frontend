@@ -17,14 +17,13 @@ import { EmotionDto } from '../../core/dto/emotion.dto';
 })
 export class AngerComponent extends EmotionBaseComponent<EmotionDto<AngerData>, AngerData> {
   angers$: Observable<AngerEmotion[]>;
-  maxAngersToDisplay: number = 5;
-  currentAngerIndex: number = 0;
 
 
   constructor(private store: Store) {
     super();
     // Using store.select to get the anger state
     this.angers$ = this.store.select(state => state.anger);
+    
   }
 
   ngOnInit() {
@@ -41,49 +40,47 @@ export class AngerComponent extends EmotionBaseComponent<EmotionDto<AngerData>, 
     };
   }
 
-  override createEmotion(context: string): void {
-    const newAnger: AngerEmotion = {
-      context,
-      data: this.getEmotionData()
-    };
-    this.store.dispatch(new AddAnger(newAnger));
-  }
-
-  addAnger() {
-    const newAnger: AngerEmotion = {
-      context: this.userInput,
-      data: this.getEmotionData()
-    };
-    this.store.dispatch(new AddAnger(newAnger));
-  }
-
-  onBoxClick() {
-    this.toggleEmphasis();
-  }
-
-  handleEnterKey(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      this.handleEmotionEntry('anger');
+  override createEmotion(context: string, title: string): void {
+    if (context && context.trim() && title && title.trim()) {
+      const newAnger: AngerEmotion = {
+        context,
+        title,
+        data: this.getEmotionData()
+      };
+      this.store.dispatch(new AddAnger(newAnger));
     }
   }
 
-  override handleEmotionEntry(emotionType: string) {
-    super.handleEmotionEntry(emotionType); 
-    this.addAnger();
+  override onBoxClick(): void {
+    this.toggleEmphasis();
   }
+
+  //TODO - May no longer need this.
+  override onCarouselBoxClick(anger: AngerEmotion, index: number): void {
+    // if (this.selectedEmotion<AngerEmotion> === anger) {
+    //   this.selectedEmotionIndex = null;
+    // } else {
+    //   this.selectedEmotionIndex = index;
+    //   this.userInputTitle = anger.title;
+    //   this.userInputContext = anger.context;
+    // }
+    this.selectEmotion(anger, index);  // Use the new selectEmotion method
+    this.inEditMode = false;
+  }
+
 
    // Method to go to the previous set of anger emotions
    prevAnger() {
-    if (this.currentAngerIndex > 0) {
-      this.currentAngerIndex -= this.maxAngersToDisplay; // Move back by the max number of items to display
+    if (this.currentEmotionIndex > 0) {
+      this.currentEmotionIndex -= this.maxEmotionsToDisplay; // Move back by the max number of items to display
     }
   }
 
   // Method to go to the next set of anger emotions
   nextAnger() {
     const angers = this.store.selectSnapshot(state => state.anger); // Get the current state of angers
-    if (this.currentAngerIndex + this.maxAngersToDisplay < angers.length) {
-      this.currentAngerIndex += this.maxAngersToDisplay; // Move forward by the max number of items to display
+    if (this.currentEmotionIndex + this.maxEmotionsToDisplay < angers.length) {
+      this.currentEmotionIndex += this.maxEmotionsToDisplay; // Move forward by the max number of items to display
     }
   }
 }

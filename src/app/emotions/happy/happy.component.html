@@ -1,0 +1,74 @@
+<!-- (keydown)="handleEnterKey($event)" -->
+<div id="moods">
+    <div class="mood-block"
+      (click)="onBoxClick()" 
+      tabindex="0"
+      [ngClass]="{'emphasized': isEmphasized}">
+      <span>Happy</span> 
+    </div>
+  
+    <div *ngIf="isEmphasized" class="happy-input-container">
+      <input
+        [readonly]="!inEditMode"
+        type="text"
+        class="response-text-area"
+        [(ngModel)]="userInputTitle"
+        placeholder="Title of entry..."
+      >
+  
+            <!-- (keydown.enter)="createEmotion(userInputContext, userInputTitle)"  -->
+      <textarea
+        [readonly]="!inEditMode"
+        class="response-text-area"
+        [(ngModel)]="userInputContext" 
+        placeholder="Describe your happy..."
+        rows="10"
+        cols="100"
+      ></textarea>
+  
+      <!-- selectedEmotion !== null &&  -->
+      <button *ngIf="inEditMode && userInputContext && userInputContext.trim() && userInputTitle && userInputTitle.trim()" class="response-enter-button" (click)="createEmotion(userInputContext, userInputTitle); inEditMode = false">
+        Save
+      </button>
+      <button *ngIf="selectedEmotion !== null" (click)="editable()" class="response-enter-button">
+        Edit
+      </button>
+      <button *ngIf="selectedEmotion !== null" (click)="deselectEmotion()" class="response-enter-button">
+        Clear
+      </button>
+  
+      <!-- <button *ngIf="userInputContext && userInputContext.trim() && userInputTitle && userInputTitle.trim()" class="response-enter-button" (click)="createEmotion(userInputContext, userInputTitle)">
+        Enter
+      </button> -->
+  
+      <!-- Display the list of happy emotions -->
+      <h3>Happy Entries:</h3>
+      <div *ngIf="happys$ | async as happys" class="happy-list-container">
+        <div class="navigation-arrows">
+          <button (click)="prevHappy()" [disabled]="currentEmotionIndex === 0">&#9664;</button> <!-- Left arrow -->
+        </div>
+  
+        <ul *ngIf="happys.length > 0">
+          <ng-container *ngFor="let happy of happys | slice:currentEmotionIndex:currentEmotionIndex + maxEmotionsToDisplay; let i = index" >
+            <li *ngIf="selectedEmotion !== happy"
+            class="mood-block" 
+            (click)="onCarouselBoxClick(happy, currentEmotionIndex)"
+            >
+            
+          <strong>Title:</strong> {{ happy?.title }}<br />
+          <strong>Created Date:</strong> {{ happy?.createdDate }}<br />
+        </li>
+          </ng-container>
+        </ul>
+  
+        <div class="navigation-arrows">
+          <button (click)="nextHappy()" [disabled]="currentEmotionIndex + maxEmotionsToDisplay >= (happys.length)">&#9654;</button> <!-- Right arrow -->
+        </div>
+  
+        <div *ngIf="happys.length === 0">
+          <p>No happy emotions recorded.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
